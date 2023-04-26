@@ -273,7 +273,7 @@ SES_SECRET="$SECRET_ACCESS_KEY"
 
 ## S3 Configuration (Post-Installer)
 PF_ENABLE_CLOUD=true
-FILESYSTEM_DRIVER=s3
+FILESYSTEM_DRIVER=local
 FILESYSTEM_CLOUD=s3
 AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY="$SECRET_ACCESS_KEY"
@@ -290,8 +290,32 @@ php artisan storage:link
 php artisan route:cache
 php artisan view:cache
 php artisan config:cache
+php artisan horizon:install
+php artisan horizon:publish
+
+echo "* * * * * /usr/bin/php /usr/share/webapps/pixelfed/artisan schedule:run >> /dev/null 2>&1" >> pixelfedcron
+crontab pixelfedcron
+rm pixelfedcron
 
 systemctl enable apache2 && systemctl start apache2
+
+cat <<EOF > /etc/systemd/system/pixelfed.service
+[Unit]
+Description=Pixelfed task queueing via Laravel Horizon
+After=network.target
+Requires=apache2.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/php /usr/share/webapps/pixelfed/artisan horizon
+User=www-data
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reexec
+systemctl enable pixelfed && systemctl start pixelfed
 
 success=$?
 cfn-signal --exit-code $success --stack ${AWS::StackName} --resource Asg --region ${AWS::Region}
