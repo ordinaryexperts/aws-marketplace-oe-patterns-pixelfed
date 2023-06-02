@@ -2,7 +2,7 @@
 # Pixelfed configuration
 #
 
-PIXELFED_VERSION=v0.11.5
+PIXELFED_VERSION=v0.11.8
 
 # install apache and php
 apt-get -y install            \

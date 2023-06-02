@@ -284,6 +284,22 @@ AWS_BUCKET=${AssetsBucketName}
 #AWS_USE_PATH_STYLE_ENDPOINT=false
 EOF
 
+if [ -e /data/.copy_done ]
+then
+    echo "The directory has already been copied and linked!"
+else
+    mv /usr/share/webapps/pixelfed/storage /data
+    if [ $? -eq 0 ]
+    then
+        cd /usr/share/webapps/pixelfed
+        ln -s /data/storage storage
+        touch /data/.copy_done
+        echo "Directory moved and linked successfully!"
+    else
+        echo "Failed to move the directory!"
+    fi
+fi
+
 cd /usr/share/webapps/pixelfed
 php artisan migrate --force
 php artisan storage:link
@@ -292,6 +308,7 @@ php artisan view:cache
 php artisan config:cache
 php artisan horizon:install
 php artisan horizon:publish
+php artisan passport:keys
 
 echo "* * * * * /usr/bin/php /usr/share/webapps/pixelfed/artisan schedule:run >> /dev/null 2>&1" >> pixelfedcron
 crontab pixelfedcron
