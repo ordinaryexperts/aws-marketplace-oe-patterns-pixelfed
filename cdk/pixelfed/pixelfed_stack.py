@@ -77,7 +77,10 @@ class PixelfedStack(Stack):
 
         bucket = AssetsBucket(
             self,
-            "AssetsBucket"
+            "AssetsBucket",
+            allow_open_cors = True,
+            object_ownership_value = "ObjectWriter",
+            remove_public_access_block = True
         )
 
         ses = Ses(
