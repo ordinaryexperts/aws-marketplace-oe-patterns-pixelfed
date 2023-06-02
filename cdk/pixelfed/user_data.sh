@@ -284,23 +284,29 @@ AWS_BUCKET=${AssetsBucketName}
 #AWS_USE_PATH_STYLE_ENDPOINT=false
 EOF
 
+cd /usr/share/webapps/pixelfed
 if [ -e /data/.copy_done ]
 then
-    echo "The directory has already been copied and linked!"
-else
-    mv /usr/share/webapps/pixelfed/storage /data
+    echo "directory has already been copied - removing default storage"
+    rm -rf storage
     if [ $? -eq 0 ]
     then
-        cd /usr/share/webapps/pixelfed
-        ln -s /data/storage storage
-        touch /data/.copy_done
-        echo "Directory moved and linked successfully!"
+        echo "default storage removed successfully"
     else
-        echo "Failed to move the directory!"
+        echo "ERROR: failed to remove default storage"
+    fi
+else
+    mv storage /data
+    if [ $? -eq 0 ]
+    then
+        touch /data/.copy_done
+        echo "default storage moved successfully"
+    else
+        echo "ERROR: failed to move default storage"
     fi
 fi
+ln -s /data/storage storage
 
-cd /usr/share/webapps/pixelfed
 php artisan migrate --force
 php artisan storage:link
 php artisan route:cache
