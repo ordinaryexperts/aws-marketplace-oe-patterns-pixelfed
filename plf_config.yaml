@@ -155,7 +155,7 @@ We support multiple availability zones using an RDS Aurora MySQL cluster and EC2
 "FCP Dimension24 Description": ""
 "FCP Dimension24 Rate": ""
 "Clusters and AWS Resources Topology 1: Title": "Ordinary Experts Pixelfed Pattern"
-"Clusters and AWS Resources Topology 1: AWS Calculator Link": "https://calculator.aws/#/estimate?id=28e0721d09cea568f7e0551967dc6da246dbcf5d"
+"Clusters and AWS Resources Topology 1: AWS Calculator Link": "https://calculator.aws/#/estimate?id=e2f9347c1109bc2c4f0274a5f9a63d3119769c4b"
 "Clusters and AWS Resources Topology 1: Short Description": "Ordinary Experts Pixelfed Pattern AWS Architecture Diagram"
 "Clusters and AWS Resources Topology 1: Long Description": "The Ordinary Experts Pixelfed Patterns AWS Architecture Diagram shows the total flow of services from when the customer accesses the Pixelfed application. The diagram shows the following AWS Services: Amazon Simple Storage System (Amazon S3), Amazon Elastic Compute Cloud (Amazon EC2), Amazon Virtual Public Cloud (Amazon VPC), Amazon Aurora MySQL, Amazon Secrets Manager, and Amazon ElastiCache."
 "Clusters and AWS Resources Topology 1: CloudFormation Template URL": "https://ordinary-experts-aws-marketplace-pattern-artifacts.s3.amazonaws.com/pixelfed/{{version}}/template.yaml"
