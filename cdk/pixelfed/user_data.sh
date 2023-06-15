@@ -157,41 +157,6 @@ aws ssm get-parameter \
 DB_PASSWORD=$(cat /opt/oe/patterns/secret.json | jq -r .password)
 DB_USERNAME=$(cat /opt/oe/patterns/secret.json | jq -r .username)
 
-pip install boto3
-cat <<EOF > /root/check-secrets.py
-#!/usr/bin/env python3
-
-import boto3
-import json
-import subprocess
-import sys
-
-region_name = sys.argv[1]
-secret_name = sys.argv[2]
-
-client = boto3.client("secretsmanager", region_name=region_name)
-response = client.list_secrets(
-  Filters=[{"Key": "name", "Values": [secret_name]}]
-)
-arn = response["SecretList"][0]["ARN"]
-response = client.get_secret_value(
-  SecretId=arn
-)
-current_secret = json.loads(response["SecretString"])
-if not 'app_key' in current_secret:
-  cmd = 'cd /usr/share/webapps/pixelfed && php artisan key:generate --show'
-  output = subprocess.run(cmd, stdout=subprocess.PIPE, shell=True).stdout.decode('utf-8')
-  current_secret['app_key'] = output
-  client.update_secret(
-    SecretId=arn,
-    SecretString=json.dumps(current_secret)
-  )
-else:
-  print('Secrets already generated - no action needed.')
-EOF
-chown root:root /root/check-secrets.py
-chmod 744 /root/check-secrets.py
-
 /root/check-secrets.py ${AWS::Region} ${InstanceSecretName}
 
 aws ssm get-parameter \
@@ -205,7 +170,7 @@ SECRET_ACCESS_KEY=$(cat /opt/oe/patterns/instance.json | jq -r .secret_access_ke
 APP_KEY=$(cat /opt/oe/patterns/instance.json | jq -r .app_key)
 
 cat <<EOF > /usr/share/webapps/pixelfed/.env
-APP_NAME="Pixelfed"
+APP_NAME="${AppName}"
 APP_ENV="production"
 APP_KEY="$APP_KEY"
 APP_DEBUG="false"
@@ -213,7 +178,7 @@ APP_DEBUG="false"
 # Instance Configuration
 OPEN_REGISTRATION="true"
 ENFORCE_EMAIL_VERIFICATION="true"
-PF_MAX_USERS="1000"
+PF_MAX_USERS="1000000"
 OAUTH_ENABLED="false"
 
 # Media Configuration

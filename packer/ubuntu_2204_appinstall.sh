@@ -1,3 +1,14 @@
+
+SCRIPT_VERSION=1.2.4
+SCRIPT_PREINSTALL=ubuntu_2204_preinstall.sh
+SCRIPT_POSTINSTALL=ubuntu_2204_postinstall.sh
+
+# preinstall steps
+curl -O "https://raw.githubusercontent.com/ordinaryexperts/aws-marketplace-utilities/$SCRIPT_VERSION/packer_provisioning_scripts/$SCRIPT_PREINSTALL"
+chmod +x "$SCRIPT_PREINSTALL"
+./"$SCRIPT_PREINSTALL"
+rm $SCRIPT_PREINSTALL
+
 #
 # Pixelfed configuration
 #
@@ -108,7 +119,49 @@ ErrorLogFormat "{\"time\":\"%{%usec_frac}t\", \"function\":\"[%-m:%l]\", \"proce
         php_value upload_max_filesize 100M
 </VirtualHost>
 EOF
+
 a2ensite pixelfed
 
 # apache2 will be enabled / started on boot
 systemctl disable apache2
+
+pip install boto3
+cat <<EOF > /root/check-secrets.py
+#!/usr/bin/env python3
+
+import boto3
+import json
+import subprocess
+import sys
+
+region_name = sys.argv[1]
+secret_name = sys.argv[2]
+
+client = boto3.client("secretsmanager", region_name=region_name)
+response = client.list_secrets(
+  Filters=[{"Key": "name", "Values": [secret_name]}]
+)
+arn = response["SecretList"][0]["ARN"]
+response = client.get_secret_value(
+  SecretId=arn
+)
+current_secret = json.loads(response["SecretString"])
+if not 'app_key' in current_secret:
+  cmd = 'cd /usr/share/webapps/pixelfed && php artisan key:generate --show'
+  output = subprocess.run(cmd, stdout=subprocess.PIPE, shell=True).stdout.decode('utf-8')
+  current_secret['app_key'] = output
+  client.update_secret(
+    SecretId=arn,
+    SecretString=json.dumps(current_secret)
+  )
+else:
+  print('Secrets already generated - no action needed.')
+EOF
+chown root:root /root/check-secrets.py
+chmod 744 /root/check-secrets.py
+
+# post install steps
+curl -O "https://raw.githubusercontent.com/ordinaryexperts/aws-marketplace-utilities/$SCRIPT_VERSION/packer_provisioning_scripts/$SCRIPT_POSTINSTALL"
+chmod +x "$SCRIPT_POSTINSTALL"
+./"$SCRIPT_POSTINSTALL"
+rm $SCRIPT_POSTINSTALL
