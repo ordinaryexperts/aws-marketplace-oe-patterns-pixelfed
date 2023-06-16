@@ -27,7 +27,7 @@ We support multiple availability zones using an RDS Aurora MySQL cluster and EC2
 "Resource3_Name": "Pixelfed Homepage"
 "Resource3_URL": "https://pixelfed.org/"
 "Image URL": "https://ordinaryexperts.com/img/products/pixelfed-pattern/pixelfed-product-logo.png"
-"Product Video": ""
+"Product Video": "https://youtu.be/IZn8sgBHkBw"
 "Support Offered": "TRUE"
 "Support Information": "https://ordinaryexperts.com/products/pixelfed-pattern/"
 "Support Detail": "Email support offered with subscription."
