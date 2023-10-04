@@ -94,14 +94,23 @@ LOG_CHANNEL="stack"
 HORIZON_PREFIX="horizon-"
 
 # ActivityPub Configuration
-ACTIVITY_PUB="false"
-AP_REMOTE_FOLLOW="false"
-AP_INBOX="false"
-AP_OUTBOX="false"
-AP_SHAREDINBOX="false"
+ACTIVITY_PUB="${ActivityPubEnabled}"
+AP_REMOTE_FOLLOW="${ActivityPubEnabled}"
+AP_INBOX="${ActivityPubEnabled}"
+AP_OUTBOX="${ActivityPubEnabled}"
+AP_SHAREDINBOX="${ActivityPubEnabled}"
 
 # Experimental Configuration
 EXP_EMC="true"
+
+## Mastodon Login
+PF_LOGIN_WITH_MASTODON_ENABLED="${MastodonLoginEnabled}"
+PF_LOGIN_WITH_MASTODON_SKIP_EMAIL="${MastodonLoginSkipEmailVerification}"
+PF_LOGIN_WITH_MASTODON_DOMAINS="${MastodonLoginCustomDomains}"
+PF_LOGIN_WITH_MASTODON_ONLY_DEFAULT="${MastodonLoginOnlyDefaultDomains}"
+PF_LOGIN_WITH_MASTODON_ONLY_CUSTOM="${MastodonLoginOnlyCustomDomains}"
+PF_LOGIN_WITH_MASTODON_ENFORCE_MAX_USES="${MastodonLoginEnforceMaxUses}"
+PF_LOGIN_WITH_MASTODON_MAX_USES_LIMIT="${MastodonLoginMaxUsesLimit}"
 
 ## Mail Configuration (Post-Installer)
 MAIL_DRIVER=ses
@@ -155,6 +164,7 @@ php artisan config:cache
 php artisan horizon:install
 php artisan horizon:publish
 php artisan passport:keys
+php artisan passport:install
 
 echo "* * * * * /usr/bin/php /usr/share/webapps/pixelfed/artisan schedule:run >> /dev/null 2>&1" >> pixelfedcron
 crontab pixelfedcron

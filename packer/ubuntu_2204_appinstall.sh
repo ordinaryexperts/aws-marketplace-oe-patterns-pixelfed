@@ -13,7 +13,7 @@ rm $SCRIPT_PREINSTALL
 # Pixelfed configuration
 #
 
-PIXELFED_VERSION=v0.11.8
+PIXELFED_VERSION=v0.11.9
 
 # cloudwatch config
 cat <<EOF > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
@@ -171,8 +171,6 @@ cd /usr/share/webapps
 git clone https://github.com/pixelfed/pixelfed.git pixelfed
 cd pixelfed
 git checkout $PIXELFED_VERSION
-# # https://github.com/pixelfed/pixelfed/pull/3846
-# sed -i '185,187c\                        return Storage::url($path) . "?v={$avatar->change_count}";' app/Profile.php
 
 composer install --no-ansi --no-interaction --optimize-autoloader
 
