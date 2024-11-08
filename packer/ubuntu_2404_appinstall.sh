@@ -1,7 +1,7 @@
 
-SCRIPT_VERSION=1.2.4
-SCRIPT_PREINSTALL=ubuntu_2204_preinstall.sh
-SCRIPT_POSTINSTALL=ubuntu_2204_postinstall.sh
+SCRIPT_VERSION=1.6.0
+SCRIPT_PREINSTALL=ubuntu_2204_2404_preinstall.sh
+SCRIPT_POSTINSTALL=ubuntu_2204_2404_postinstall.sh
 
 # preinstall steps
 curl -O "https://raw.githubusercontent.com/ordinaryexperts/aws-marketplace-utilities/$SCRIPT_VERSION/packer_provisioning_scripts/$SCRIPT_PREINSTALL"
@@ -13,7 +13,7 @@ rm $SCRIPT_PREINSTALL
 # Pixelfed configuration
 #
 
-PIXELFED_VERSION=v0.11.9
+PIXELFED_VERSION=v0.12.3
 
 # cloudwatch config
 cat <<EOF > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
@@ -149,20 +149,20 @@ apt-get -y install            \
         mysql-client-8.0      \
         mysql-client-core-8.0 \
         nfs-common            \
-        php8.1                \
-        php8.1-apcu           \
-        php8.1-bcmath         \
-        php8.1-cgi            \
-        php8.1-curl           \
-        php8.1-dev            \
-        php8.1-fpm            \
-        php8.1-gd             \
-        php8.1-mbstring       \
-        php8.1-memcached      \
-        php8.1-mysql          \
-        php8.1-redis          \
-        php8.1-xml            \
-        php8.1-zip            \
+        php8.3                \
+        php8.3-apcu           \
+        php8.3-bcmath         \
+        php8.3-cgi            \
+        php8.3-curl           \
+        php8.3-dev            \
+        php8.3-fpm            \
+        php8.3-gd             \
+        php8.3-mbstring       \
+        php8.3-memcached      \
+        php8.3-mysql          \
+        php8.3-redis          \
+        php8.3-xml            \
+        php8.3-zip            \
         zlib1g-dev
 
 # Clone pixelfed
@@ -179,7 +179,7 @@ find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
 
 # configure apache
-a2enmod php8.1
+a2enmod php8.3
 a2enmod rewrite
 a2enmod ssl
 
@@ -249,7 +249,7 @@ a2ensite pixelfed
 # apache2 will be enabled / started on boot
 systemctl disable apache2
 
-pip install boto3
+pip install boto3 --break-system-packages
 cat <<EOF > /root/check-secrets.py
 #!/usr/bin/env python3
 
