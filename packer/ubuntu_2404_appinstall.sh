@@ -13,7 +13,7 @@ rm $SCRIPT_PREINSTALL
 # Pixelfed configuration
 #
 
-PIXELFED_VERSION=v0.12.3
+PIXELFED_VERSION=v0.12.4
 
 # cloudwatch config
 cat <<EOF > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
