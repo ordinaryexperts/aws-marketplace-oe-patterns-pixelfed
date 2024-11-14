@@ -165,6 +165,7 @@ php artisan horizon:install
 php artisan horizon:publish
 php artisan passport:keys
 php artisan passport:install
+chown www-data:www-data /usr/share/webapps/pixelfed/storage/oauth*
 
 echo "* * * * * /usr/bin/php /usr/share/webapps/pixelfed/artisan schedule:run >> /dev/null 2>&1" >> pixelfedcron
 crontab pixelfedcron
