@@ -1,5 +1,7 @@
 # Unreleased
 
+* Adding TaskCat test
+
 # 2.0.0
 
 * Upgrade devenv to 2.5.3
