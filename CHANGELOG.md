@@ -1,6 +1,7 @@
 # Unreleased
 
 * Adding TaskCat test
+* Adding link to marketplace product
 
 # 2.0.0
 
