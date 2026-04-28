@@ -10,6 +10,9 @@ services:
       - AWS_REGION
       - AWS_SECRET_ACCESS_KEY
       - AWS_SESSION_TOKEN
+      - TEST_BASE_URL
+      - TEST_PIXELFED_PASSWORD
+      - TEST_STACK_NAME
       - USER
   ami:
     build: ./packer

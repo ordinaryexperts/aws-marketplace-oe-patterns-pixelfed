@@ -1,0 +1,34 @@
+# Integration Test Configuration
+# Override values via environment variables: TEST_BASE_URL, TEST_STACK_NAME, etc.
+
+# Application-specific configuration
+application:
+  name: "Pixelfed"
+  health_endpoint: "/api/v1/instance"
+  version_endpoint: "/api/v1/instance"
+  version_field: "version"
+  expected_version: "Pixelfed 0.12.7"
+
+# AWS Configuration
+aws:
+  region: "us-east-1"
+  stack_name: "oe-patterns-pixelfed-dylan"
+
+# Test Configuration
+test:
+  timeout: 30
+  retry_attempts: 3
+  retry_delay: 2
+
+# Test URLs (can be overridden by environment variables)
+# TEST_BASE_URL environment variable takes precedence
+urls:
+  base_url: "https://pixelfed-dylan.dev.patterns.ordinaryexperts.com"
+
+# Test user configuration for workflow tests
+# Created via SSM beforehand: php artisan user:create --confirm_email=1 --is_admin=1 ...
+# Password is read from TEST_PIXELFED_PASSWORD env var (do NOT commit)
+test_user:
+  username: "testadmin"
+  email: "testadmin@example.com"
+  # password from env: TEST_PIXELFED_PASSWORD

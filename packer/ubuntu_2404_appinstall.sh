@@ -1,5 +1,5 @@
 
-SCRIPT_VERSION=1.6.0
+SCRIPT_VERSION=1.10.0
 SCRIPT_PREINSTALL=ubuntu_2204_2404_preinstall.sh
 SCRIPT_POSTINSTALL=ubuntu_2204_2404_postinstall.sh
 
@@ -13,7 +13,7 @@ rm $SCRIPT_PREINSTALL
 # Pixelfed configuration
 #
 
-PIXELFED_VERSION=v0.12.4
+PIXELFED_VERSION=v0.12.7
 
 # cloudwatch config
 cat <<EOF > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
