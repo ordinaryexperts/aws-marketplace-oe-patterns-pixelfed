@@ -28,3 +28,16 @@ scripts/common/*
 
 # plf
 plf*.xlsx
+
+# ami-build logs written by common.mk
+logs/
+
+# scripts fetched from aws-marketplace-utilities at rebrand time
+scripts/marketplace_rebrand.py
+scripts/marketplace_rebrand_lib.py
+.marketplace_changeset
+
+# scripts fetched from aws-marketplace-utilities at reprice time
+scripts/marketplace_reprice.py
+scripts/marketplace_reprice_lib.py
+.marketplace_changeset_pricing

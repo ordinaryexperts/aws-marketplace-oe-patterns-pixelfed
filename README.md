@@ -1,6 +1,8 @@
 # Pixelfed on AWS Pattern
 
-Quickly install Pixelfed 0.11.8 using AWS best practices via the AWS Marketplace. This repository contains the CDK code that generates the CloudFormation for this product.
+Quickly install Pixelfed in your own AWS account using AWS best practices via the AWS Marketplace. This repository contains the CDK code that generates the CloudFormation for this product.
+
+[Try now on the AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-gydorme76n4pe)
 
 [More Details](https://ordinaryexperts.com/products/pixelfed-pattern/)
 
